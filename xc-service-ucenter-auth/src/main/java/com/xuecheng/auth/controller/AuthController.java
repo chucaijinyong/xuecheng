@@ -42,6 +42,9 @@ public class AuthController implements AuthControllerApi {
     @Autowired
     AuthService authService;
 
+    /**
+    * @methodDesc: 用户登录返回token信息
+    */
     @Override
     @PostMapping("/userlogin")
     public LoginResult login(@RequestBody LoginRequest loginRequest) {
@@ -78,7 +81,7 @@ public class AuthController implements AuthControllerApi {
     }
     //从cookie删除token
     private void clearCookie(String token){
-
+        // 删除cookie其实就是将有效期改成0
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         //HttpServletResponse response,String domain,String path, String name, String value, int maxAge,boolean httpOnly
         CookieUtil.addCookie(response,cookieDomain,"/","uid",token,0,false);
@@ -98,6 +101,9 @@ public class AuthController implements AuthControllerApi {
         return new ResponseResult(CommonCode.SUCCESS);
     }
 
+    /**
+    * @methodDesc: 查询用户访问token
+    */
     @Override
     @GetMapping("/userjwt")
     public JwtResult userjwt() {
@@ -107,12 +113,12 @@ public class AuthController implements AuthControllerApi {
             return new JwtResult(CommonCode.FAIL,null);
         }
 
-        //拿身份令牌从redis中查询jwt令牌
+        //拿身份令牌从redis中查询access_token访问令牌
         AuthToken userToken = authService.getUserToken(uid);
         if(userToken!=null){
             //将jwt令牌返回给用户
-            String jwt_token = userToken.getJwt_token();
-            return new JwtResult(CommonCode.SUCCESS,jwt_token);
+            String access_token = userToken.getAccess_token();
+            return new JwtResult(CommonCode.SUCCESS,access_token);
         }
         return null;
     }
@@ -120,6 +126,7 @@ public class AuthController implements AuthControllerApi {
     //取出cookie中的身份令牌
     private String getTokenFormCookie(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        // 第二个参数为可变参数
         Map<String, String> map = CookieUtil.readCookie(request, "uid");
         if(map!=null && map.get("uid")!=null){
             String uid = map.get("uid");

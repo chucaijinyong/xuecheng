@@ -19,10 +19,9 @@ zuul:
   routes:
     manage-course:
       path: /course/**
-      serviceId: xc-service-manage-course #微服务名称，网关会从eureka中获取该服务名称下的服务实例的地址
-      # 例子：将请求转发到http://localhost:31200/course
-      #url: http://www.baidu.com #也可指定url，此url也可以是外网地址\
-      strip-prefix: false #true：代理转发时去掉前缀，false:代理转发时不去掉前缀
+      serviceId: xc-service-manage-course #微服务名称，网关会根据serviceId从eureka中获取该服务名称下的服务实例的地址
+      strip-prefix: false #true：代理转发时去掉前缀，false:代理转发时不去掉前缀,例如，为true请
+#        求/course/coursebase/get/..，代理转发到/coursebase/get/，如果为false则代理转发到/course/coursebase/get
       sensitiveHeaders:  #默认zuul会屏蔽cookie，cookie不会传到下游服务，这里设置为空则取消默认的黑名单，如果设置了具体的头信息则不会传到下游服务
       #   ignoredHeaders: 默认为空表示不过虑任何头
     xc-service-learning:  #路由名称，名称任意，保持所有路由名称唯一

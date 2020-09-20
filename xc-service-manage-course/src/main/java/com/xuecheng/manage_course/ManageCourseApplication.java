@@ -34,6 +34,7 @@ public class ManageCourseApplication {
         return new RestTemplate(new OkHttp3ClientHttpRequestFactory());
     }
 
+    // 注入feign拦截器，实现透传
     @Bean
     public FeignClientInterceptor getFeignClientInterceptor(){
         return new FeignClientInterceptor();

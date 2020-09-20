@@ -16,8 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Order(-1)
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     @Override
     public void configure(WebSecurity web) throws Exception {
+        // 用户登录,用户退出,以及获取token的方法都需要放行
         web.ignoring().antMatchers("/userlogin","/userlogout","/userjwt");
 
     }

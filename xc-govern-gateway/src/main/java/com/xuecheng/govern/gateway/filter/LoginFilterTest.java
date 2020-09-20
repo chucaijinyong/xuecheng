@@ -59,7 +59,7 @@ public class LoginFilterTest extends ZuulFilter {
         //得到Authorization头
         String authorization = request.getHeader("Authorization");
         if(StringUtils.isEmpty(authorization)){
-            //拒绝访问
+            //拒绝访问--意思是不在继续向下转发,直接响应给客户端
             requestContext.setSendZuulResponse(false);
             //设置响应代码
             requestContext.setResponseStatusCode(200);

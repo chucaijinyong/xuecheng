@@ -134,6 +134,8 @@ public class AuthService {
             }
         });
 
+        // 此时springsecurity会自执行UserDetailsServiceImpl里面的方法,根据用户名查询用户基本信息和权限,然后将查询的结果封装成access_token,
+        // 当然也会执行密码校验的逻辑 AbstractAuthenticationProcessingFilter.doFilter()调用UsernamePasswordAuthenticationFilter中的attemptAuthentication方法
         ResponseEntity<Map> exchange = restTemplate.exchange(authUrl, HttpMethod.POST, httpEntity, Map.class);
 
         //申请令牌信息
@@ -143,7 +145,7 @@ public class AuthService {
                 bodyMap.get("refresh_token") == null ||
                 bodyMap.get("jti") == null){
 
-            //解析spring security返回的错误信息
+            //解析申请令牌时spring security返回的错误信息----目的就是更友好的返回
             if(bodyMap!=null && bodyMap.get("error_description")!=null){
                 String error_description = (String) bodyMap.get("error_description");
                 if(error_description.indexOf("UserDetailsService returned null")>=0){

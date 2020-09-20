@@ -22,7 +22,7 @@ public class AuthService {
 
     //从头取出jwt令牌
     public String getJwtFromHeader(HttpServletRequest request){
-        //取出头信息
+        //取出头信息,如果没有认证信息Authorization,则说明没有登录
         String authorization = request.getHeader("Authorization");
         if(StringUtils.isEmpty(authorization)){
             return null;

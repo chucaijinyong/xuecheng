@@ -53,16 +53,20 @@ public class LoginFilter extends ZuulFilter {
         return true;
     }
 
-    //过虑器的内容
-    //测试的需求：过虑所有请求，判断头部信息是否有Authorization，如果没有则拒绝访问，否则转发到微服务。
+    /**
+    * 1、从cookie查询用户身份令牌是否存在，不存在则拒绝访问
+     * 2、从http header查询jwt令牌是否存在，不存在则拒绝访问
+     * 3.从Redis查询user_token令牌是否过期，过期则拒绝访问
+    */
     @Override
     public Object run() throws ZuulException {
+        // 使用zuul给我们提供的上下文对象RequestContext,从这个里面可以获取请求和响应
         RequestContext requestContext = RequestContext.getCurrentContext();
         //得到request
         HttpServletRequest request = requestContext.getRequest();
         //得到response
         HttpServletResponse response = requestContext.getResponse();
-        //取cookie中的身份令牌
+        //取cookie中的身份令牌,为空则是未认证,不放行
         String tokenFromCookie = authService.getTokenFromCookie(request);
         if(StringUtils.isEmpty(tokenFromCookie)){
             //拒绝访问

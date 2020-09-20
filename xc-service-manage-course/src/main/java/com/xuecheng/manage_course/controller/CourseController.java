@@ -90,6 +90,9 @@ public class CourseController extends BaseController implements CourseController
         return courseService.savemedia(teachplanMedia);
     }
 
+    /**
+    * @methodDesc: 课程查询
+    */
     @Override
     @GetMapping("/coursebase/list/{page}/{size}")
     public QueryResponseResult<CourseInfo> findCourseList(@PathVariable("page") int page,

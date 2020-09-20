@@ -50,16 +50,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             //返回空给spring security表示用户不存在
             return null;
         }
-//        XcUserExt userext = new XcUserExt();
-//        userext.setUsername("itcast");
-//        userext.setPassword(new BCryptPasswordEncoder().encode("123"));
-        //userext.setPermissions(new ArrayList<XcMenu>());//权限暂时用静态的
-
         //取出正确密码（hash值）
         String password = userext.getPassword();
-        //这里暂时使用静态密码
-//       String password ="123";
-        //用户权限，这里暂时使用静态数据，最终会从数据库读取
         //从数据库获取权限
         List<XcMenu> permissions = userext.getPermissions();
         if(permissions == null){
@@ -67,22 +59,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         List<String> user_permission = new ArrayList<>();
         permissions.forEach(item-> user_permission.add(item.getCode()));
-        //使用静态的权限表示用户所拥有的权限
-//        user_permission.add("course_get_baseinfo");//查询课程信息
-//        user_permission.add("course_pic_list");//图片查询
         String user_permission_string  = StringUtils.join(user_permission.toArray(), ",");
-        UserJwt userDetails = new UserJwt(username,
+        UserJwt userJwt = new UserJwt(username,
                 password,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
-        userDetails.setId(userext.getId());
-        userDetails.setUtype(userext.getUtype());//用户类型
-        userDetails.setCompanyId(userext.getCompanyId());//所属企业
-        userDetails.setName(userext.getName());//用户名称
-        userDetails.setUserpic(userext.getUserpic());//用户头像
-       /* UserDetails userDetails = new org.springframework.security.core.userdetails.User(username,
-                password,
-                AuthorityUtils.commaSeparatedStringToAuthorityList(""));*/
-//                AuthorityUtils.createAuthorityList("course_get_baseinfo","course_get_list"));
-        return userDetails;
+        userJwt.setId(userext.getId());
+        userJwt.setUtype(userext.getUtype());//用户类型
+        userJwt.setCompanyId(userext.getCompanyId());//所属企业
+        userJwt.setName(userext.getName());//用户名称
+        userJwt.setUserpic(userext.getUserpic());//用户头像
+
+        // 此时返回的对象包含用户的基本信息和权限，当用户登陆后返回的access_token中就含有了权限信息，可以通过测试类解析token验证
+        return userJwt;
     }
 }

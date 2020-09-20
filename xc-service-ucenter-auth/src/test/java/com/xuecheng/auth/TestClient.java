@@ -92,7 +92,7 @@ public class TestClient {
         //原始密码
         String password = "123456";
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        //使用BCrypt加密，每次加密使用一个随机盐
+        //使用BCrypt加密，每次加密使用一个随机盐,使得对于同一个密码经过加密得到的结果都不一样,安全性高
         for(int i=0;i<10;i++){
             String encode = bCryptPasswordEncoder.encode(password);
             System.out.println(encode);
