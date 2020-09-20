@@ -52,11 +52,12 @@ public class AuthService {
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
         }
         //用户身份令牌
-        String access_token = authToken.getAccess_token();
-        //存储到redis中的内容
+        String jwt_token = authToken.getJwt_token();
+        //存储到redis中的内容,包括所有的内容,转为json提高可读性
         String jsonString = JSON.toJSONString(authToken);
+
         //将令牌存储到redis
-        boolean result = this.saveToken(access_token, jsonString, tokenValiditySeconds);
+        boolean result = this.saveToken(jwt_token, jsonString, tokenValiditySeconds);
         if (!result) {
             ExceptionCast.cast(AuthCode.AUTH_LOGIN_TOKEN_SAVEFAIL);
         }
@@ -67,20 +68,21 @@ public class AuthService {
 
     /**
      *
-     * @param access_token 用户身份令牌
+     * @param jwt_token 用户身份令牌
      * @param content  内容就是AuthToken对象的内容
      * @param ttl 过期时间
      * @return
      */
-    private boolean saveToken(String access_token,String content,long ttl){
-        String key = "user_token:" + access_token;
+    private boolean saveToken(String jwt_token,String content,long ttl){
+        String key = "user_token:" + jwt_token;
         stringRedisTemplate.boundValueOps(key).set(content,ttl, TimeUnit.SECONDS);
+        // 查询是否存储成功
         Long expire = stringRedisTemplate.getExpire(key, TimeUnit.SECONDS);
         return expire>0;
     }
     //删除token
-    public boolean delToken(String access_token){
-        String key = "user_token:" + access_token;
+    public boolean delToken(String jwt_token){
+        String key = "user_token:" + jwt_token;
         stringRedisTemplate.delete(key);
         return true;
     }
@@ -155,9 +157,9 @@ public class AuthService {
             return null;
         }
         AuthToken authToken = new AuthToken();
-        authToken.setAccess_token((String) bodyMap.get("jti"));//用户身份令牌
+        authToken.setAccess_token((String) bodyMap.get("access_token"));//访问令牌-长令牌
         authToken.setRefresh_token((String) bodyMap.get("refresh_token"));//刷新令牌
-        authToken.setJwt_token((String) bodyMap.get("access_token"));//jwt令牌
+        authToken.setJwt_token((String) bodyMap.get("jti"));//用户身份令牌-短令牌
         return authToken;
     }
 

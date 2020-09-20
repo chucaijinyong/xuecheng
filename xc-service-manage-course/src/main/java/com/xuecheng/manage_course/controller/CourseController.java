@@ -52,7 +52,7 @@ public class CourseController extends BaseController implements CourseController
     }
 
     //当用户拥有course_pic_list权限时候方可访问此方法
-    @PreAuthorize("hasAuthority('course_pic_list')")
+    @PreAuthorize("hasAuthority('course_find_list')")
     @Override
     @GetMapping("/coursepic/list/{courseId}")
     public CoursePic findCoursePic(@PathVariable("courseId") String courseId) {

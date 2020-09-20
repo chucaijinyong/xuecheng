@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  **/
 @Configuration
-@EnableResourceServer
+@EnableResourceServer // 表示该类是资源服务
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)//激活方法上的PreAuthorize注解
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
@@ -61,7 +61,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         //所有请求必须认证通过
         http.authorizeRequests()
-                //下边的路径放行
+                //下边的路径放行，如果测试阶段，不想让带着token访问，可以在放行的链接中加入/** 后期上线后去掉就行
                 .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources","/swagger-resources/configuration/security",
                         "/swagger-ui.html","/webjars/**","/course/coursepic/list/**","/course/courseview/**").permitAll()

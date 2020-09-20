@@ -14,10 +14,7 @@ import com.xuecheng.framework.utils.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -47,7 +44,7 @@ public class AuthController implements AuthControllerApi {
 
     @Override
     @PostMapping("/userlogin")
-    public LoginResult login(LoginRequest loginRequest) {
+    public LoginResult login(@RequestBody LoginRequest loginRequest) {
         if(loginRequest == null || StringUtils.isEmpty(loginRequest.getUsername())){
             ExceptionCast.cast(AuthCode.AUTH_USERNAME_NONE);
         }
@@ -63,11 +60,11 @@ public class AuthController implements AuthControllerApi {
         AuthToken authToken =  authService.login(username,password,clientId,clientSecret);
 
         //用户身份令牌
-        String access_token = authToken.getAccess_token();
+        String jwt_token = authToken.getJwt_token();
         //将令牌存储到cookie
-        this.saveCookie(access_token);
+        this.saveCookie(jwt_token);
 
-        return new LoginResult(CommonCode.SUCCESS,access_token);
+        return new LoginResult(CommonCode.SUCCESS,jwt_token);
     }
 
     //将令牌存储到cookie
@@ -75,6 +72,7 @@ public class AuthController implements AuthControllerApi {
 
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         //HttpServletResponse response,String domain,String path, String name, String value, int maxAge,boolean httpOnly
+        // httpOnly为false 前端才能访问到,必须设置为false
         CookieUtil.addCookie(response,cookieDomain,"/","uid",token,cookieMaxAge,false);
 
     }

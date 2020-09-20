@@ -52,17 +52,18 @@ public class TestClient {
         String httpBasic = getHttpBasic("XcWebApp", "XcWebApp");
         header.add("Authorization",httpBasic);
 
-        //定义body
+        //定义body  此时使用的是密码模式
         LinkedMultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type","password");
         body.add("username","itcast");
-        body.add("password","12322");
+        body.add("password","123456");
 
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(body, header);
         //String url, HttpMethod method, @Nullable HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables
 
-        //设置restTemplate远程调用时候，对400和401不让报错，正确返回数据
+        //设置restTemplate远程调用时候的错误处理器，对400和401不让报错，正确返回数据
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler(){
+            // 如果不是400或者401才报错
             @Override
             public void handleError(ClientHttpResponse response) throws IOException {
                 if(response.getRawStatusCode()!=400 && response.getRawStatusCode()!=401){
@@ -89,7 +90,7 @@ public class TestClient {
     @Test
     public void testPasswrodEncoder(){
         //原始密码
-        String password = "111111";
+        String password = "123456";
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         //使用BCrypt加密，每次加密使用一个随机盐
         for(int i=0;i<10;i++){
