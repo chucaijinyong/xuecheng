@@ -8,7 +8,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
-/** Feign拦截器，实现JWT令牌在微服务之间的透传
+/** Feign拦截器，实现JWT令牌在微服务之间的透传，其实透传的是header里面的用户身份标识token
  *  此时没有注入到spring容器中，由于此类在common中，所以其他类使用的时候注入进去就行了
  * @author Administrator
  * @version 1.0
