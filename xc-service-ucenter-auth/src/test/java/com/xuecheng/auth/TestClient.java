@@ -45,7 +45,7 @@ public class TestClient {
         ServiceInstance serviceInstance = loadBalancerClient.choose(XcServiceList.XC_SERVICE_UCENTER_AUTH);
         //此地址就是http://ip:port
         URI uri = serviceInstance.getUri();
-        //令牌申请的地址 http://localhost:40400/auth/oauth/token
+        //令牌申请的地址 http://192.168.88.103:40400/auth/oauth/token
         String authUrl = uri+ "/auth/oauth/token";
         //定义header
         LinkedMultiValueMap<String, String> header = new LinkedMultiValueMap<>();

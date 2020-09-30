@@ -30,6 +30,9 @@ public class RabbitMQConfig {
     //消费者并发数量
     public static final int DEFAULT_CONCURRENT = 10;
 
+    /**
+    * 配置RabbitListener容器工厂,设置消费者为10,表示10个消费者可同时进行消费处理
+    */
     @Bean("customContainerFactory")
     public SimpleRabbitListenerContainerFactory containerFactory(SimpleRabbitListenerContainerFactoryConfigurer configurer, ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();

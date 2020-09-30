@@ -24,7 +24,7 @@ public class FreemarkerController {
     @RequestMapping("/course")
     public String course(Map<String, Object> map){
         //使用restTemplate请求轮播图的模型数据
-        ResponseEntity<Map> forEntity = restTemplate.getForEntity("http://localhost:31200/course/courseview/4028e581617f945f01617f9dabc40000", Map.class);
+        ResponseEntity<Map> forEntity = restTemplate.getForEntity("http://192.168.88.103:31200/course/courseview/4028e581617f945f01617f9dabc40000", Map.class);
         Map body = forEntity.getBody();
         //设置模型数据
         map.putAll(body);
@@ -33,7 +33,7 @@ public class FreemarkerController {
     @RequestMapping("/banner")
     public String index_banner(Map<String, Object> map){
         //使用restTemplate请求轮播图的模型数据
-        ResponseEntity<Map> forEntity = restTemplate.getForEntity("http://localhost:31001/cms/config/getmodel/5a791725dd573c3574ee333f", Map.class);
+        ResponseEntity<Map> forEntity = restTemplate.getForEntity("http://192.168.88.103:31001/cms/config/getmodel/5a791725dd573c3574ee333f", Map.class);
         Map body = forEntity.getBody();
         //设置模型数据
         map.putAll(body);

@@ -27,8 +27,8 @@ public class TestProcessBuilder {
         //创建processBuilder对象
         ProcessBuilder processBuilder = new ProcessBuilder();
         //设置第三方应用程序的命令
-//        processBuilder.command("ping","127.0.0.1");
-        processBuilder.command("ipconfig");
+        processBuilder.command("ping","127.0.0.1");
+//        processBuilder.command("ipconfig");
 
         //将标准输入流和错误流合并
         processBuilder.redirectErrorStream(true);
@@ -38,7 +38,7 @@ public class TestProcessBuilder {
         //通过标准输入流来拿到正常和错误的信息
         InputStream inputStream = process.getInputStream();
 
-        //转成字符流
+        //转成字符流,指定字符集防止乱码
         InputStreamReader reader = new InputStreamReader(inputStream,"gbk");
         //缓冲
         char[] chars = new char[1024];
@@ -58,9 +58,10 @@ public class TestProcessBuilder {
         ProcessBuilder processBuilder = new ProcessBuilder();
         //设置第三方应用程序的命令
         List<String> command = new ArrayList<>();
-        command.add("D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe");
+        command.add("C:\\Users\\Administrator\\AppData\\Local\\Cypress\\Cache\\3.8" +
+                ".3\\Cypress\\resources\\app\\packages\\server\\node_modules\\@ffmpeg-installer\\win32-ia32\\ffmpeg.exe");
         command.add("-i");
-        command.add("E:\\ffmpeg_test\\1.avi");
+        command.add("C:\\Users\\Administrator\\Desktop\\1.avi");
         command.add("-y");//覆盖输出文件
         command.add("-c:v");
         command.add("libx264");
@@ -74,7 +75,7 @@ public class TestProcessBuilder {
         command.add("753k");
         command.add("-r");
         command.add("18");
-        command.add("E:\\ffmpeg_test\\1.mp4");
+        command.add("C:\\Users\\Administrator\\Desktop\\1.mp4");
         processBuilder.command(command);
 
         //将标准输入流和错误流合并
@@ -102,10 +103,11 @@ public class TestProcessBuilder {
     @Test
     public void testMp4VideoUtil(){
         //String ffmpeg_path, String video_path, String mp4_name, String mp4folder_path
-        String ffmpeg_path = "D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe";
-        String video_path = "E:\\ffmpeg_test\\1.avi";
+        String ffmpeg_path = "C:\\Users\\Administrator\\AppData\\Local\\Cypress\\Cache\\3.8" +
+                ".3\\Cypress\\resources\\app\\packages\\server\\node_modules\\@ffmpeg-installer\\win32-ia32\\ffmpeg.exe";
+        String video_path = "C:\\Users\\Administrator\\Desktop\\1.avi";
         String mp4_name = "1.mp4";
-        String mp4folder_path = "E:\\ffmpeg_test\\";
+        String mp4folder_path = "C:\\Users\\Administrator\\Desktop\\";
         Mp4VideoUtil mp4VideoUtil = new Mp4VideoUtil(ffmpeg_path,video_path,mp4_name,mp4folder_path);
         //生成mp4
         String result = mp4VideoUtil.generateMp4();

@@ -5,7 +5,7 @@ spring:
     name: xc-service-manage-media-processor
   data:
     mongodb:
-      uri:  mongodb://root:123@localhost:27017
+      uri:  mongodb://root:root@192.168.88.103:27017
       database: xc_media
 #rabbitmq配置
   rabbitmq:
