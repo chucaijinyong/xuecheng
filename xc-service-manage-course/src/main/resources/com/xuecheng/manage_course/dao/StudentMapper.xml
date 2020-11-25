@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuecheng.manage_course.dao.StudentMapper">
+
+    <update id="updateData">
+        update student set mark = '是' where name = #{name}
+    </update>
+    <select id="selectData" resultType="com.xuecheng.framework.domain.course.Student">
+        select * from student
+    </select>
+</mapper>

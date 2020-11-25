@@ -68,8 +68,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userJwt.setCompanyId(userext.getCompanyId());//所属企业
         userJwt.setName(userext.getName());//用户名称
         userJwt.setUserpic(userext.getUserpic());//用户头像
-
-        // 此时返回的对象包含用户的基本信息和权限，当用户登陆后返回的access_token中就含有了权限信息，可以通过测试类解析token验证
+//        此时返回的对象UsernamePasswordAuthenticationToken包括三个参数,第二个参数是已经包含了用户名和密码的它本身,如果forcePrincipalAsString为true的话,第一个参数
+//        是用户名,如果为false第一个参数和第三个参数相同都是UserDetails,   UsernamePasswordAuthenticationToken(Object principal,Authentication authentication, UserDetails user)
+        // 所以我们可以说当用户登陆后返回的access_token中就含有了权限信息，可以通过测试类解析token验证
         return userJwt;
     }
 }

@@ -3,13 +3,16 @@ package com.xuecheng.manage_course.dao;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xuecheng.framework.domain.course.CourseBase;
+import com.xuecheng.framework.domain.course.Student;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +59,26 @@ public class TestDao {
         long total = courseList.getTotal();
 
         System.out.println(result);
+    }
+
+    @Autowired
+    private StudentMapper studentRepository;
+    @Test
+    public void test11(){
+        File file = new File("C:\\Users\\Administrator\\Desktop\\学生照片");
+        for (File listFile : file.listFiles()) {
+            studentRepository.updateData(StringUtils.substringBefore(listFile.getName(), "."));
+        }
+        System.out.println("courseBaseRepository = " + "ok");
+
+    }
+
+    @Test
+    public void test12(){
+//        List<Student> students = studentRepository.selectData();
+
+        String s = "郭振宇.jpg";
+        System.out.println(StringUtils.substringBefore(s, "."));
+
     }
 }

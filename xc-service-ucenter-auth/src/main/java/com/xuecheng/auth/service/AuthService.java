@@ -115,7 +115,7 @@ public class AuthService {
         String httpBasic = getHttpBasic(clientId, clientSecret);
         header.add("Authorization",httpBasic);
 
-        //定义body
+        //定义body,密码方式访问
         LinkedMultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type","password");
         body.add("username",username);
